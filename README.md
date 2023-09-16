@@ -2,8 +2,6 @@
 
 It's fun to short big companies :_)
 
-(TNN) to classify and predict financial data. The scripts process input data and use Keras with a TensorFlow backend to construct, train, and evaluate deep learning models.
-
 An implementation of Convolutional Neural Network (CNN) and Tensor Neural Network (TNN) to classify and predict financial data. The scripts process input data and use Keras with a TensorFlow backend to construct, train, and evaluate deep learning models.
 
 ## Dependencies
