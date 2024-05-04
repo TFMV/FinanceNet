@@ -1,9 +1,3 @@
-# Let's predict the true near term price of a corporate monster without bullshit.
-
-It's fun to short big companies :_)
-
-An implementation of Convolutional Neural Network (CNN) and Tensor Neural Network (TNN) to classify and predict financial data. The scripts process input data and use Keras with a TensorFlow backend to construct, train, and evaluate deep learning models.
-
 ## Dependencies
 
 - Python 3.x
