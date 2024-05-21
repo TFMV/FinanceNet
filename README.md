@@ -1,48 +1,97 @@
-## Dependencies
+# FinanceNet
 
-- Python 3.x
-- pandas
-- numpy
-- Keras
-- TensorFlow
+FinanceNet is a comprehensive suite of tools for financial data analysis using advanced neural networks. The project includes implementations of a Convolutional Neural Network (CNN) and a Tensor Network (TNet) for processing and analyzing financial data.
 
-Ensure you have the above Python packages installed using the following:
+![FinanceNet](assets/FinanceNet.webp)
 
-## Files
+## Algorithms
 
-### cnn.py
+### Convolutional Neural Network (CNN)
 
-This script contains the implementation of a Convolutional Neural Network with the Keras library.
+The CNN implementation in `cnn.py` is designed to analyze financial time series data. The architecture is structured to capture long-term, mid-term, and short-term events to predict future movements based on historical data.
 
-Functions
+**Key Components:**
 
-make_model(input_size): Defines and returns the CNN model structure.
-data_generator(data, size): A generator function for feeding data to the Keras model during training and evaluation.
-train(input_size): Compiles and trains the CNN model.
-predict(input_size, weight): Loads the trained weights and evaluates the model on the test dataset.
-prepare_input(company): Calls functions from preprocess_training_data to prepare the input data for training and testing.
+- **Long Term Events:**
+  - Utilizes a Convolutional layer followed by MaxPooling and Flatten layers.
+  - Captures long-term dependencies in the data over 30 time steps.
 
-### tnn.py
+- **Mid Term Events:**
+  - Similar to long-term, but over 7 time steps.
+  - Focuses on capturing mid-term patterns.
 
-This script contains the implementation of a Tensor Neural Network with Keras.
+- **Short Term Events:**
+  - Direct input without convolution.
+  - Captures immediate short-term changes.
 
-Classes
+- **Previous Movement:**
+  - Includes previous movement data to enhance predictive power.
 
-Tnet(Layer): A custom Keras layer that implements the Tnet layer of a tensor neural network.
-Functions
+- **Feature Combination:**
+  - Combines the outputs from long-term, mid-term, short-term, and previous movement inputs using concatenation.
 
-get_regularizer(W): Returns a Keras regularizer for a given tensor W.
-make_model(train): Defines and returns the TNN model structure.
+- **Feedforward Neural Network:**
+  - Dense layers with ELU activation and Dropout for regularization.
+  - Final output layer uses softmax activation to predict the probability of upward or downward movement.
 
-``` bash
-python cnn.py prepare_input <company_name>
-python cnn.py train
-python cnn.py predict <epoch_number>
+**Training Process:**
+
+- Utilizes Adam optimizer and categorical_crossentropy loss function.
+- Implements a custom data generator to yield batches of training data.
+- Incorporates callbacks such as ModelCheckpoint to save the best model weights during training.
+
+### Tensor Network (TNet)
+
+The TNet implementation in `tnet.py` is a custom neural network layer designed to process complex relationships in financial data. It uses tensor operations to model interactions between input features.
+
+**Key Components:**
+
+- **Custom Layer (TNet):**
+  - Defines a tensor layer (`tlayer`) that performs complex transformations on the input data.
+  - Incorporates batch normalization for better training stability.
+
+- **Regularization:**
+  - Uses L2 regularization to prevent overfitting.
+
+- **Model Architecture:**
+  - The model consists of multiple input layers for different parts of the data.
+  - Outer and inner branches are calculated using tensor layers to capture high-level interactions.
+  - Combines the outputs from these branches to form the final prediction.
+
+- **Loss Function:**
+  - Custom `margin_loss` function designed to handle the specific needs of the TNet architecture.
+  - Ensures the model learns to distinguish between correct and corrupted examples effectively.
+
+**Training Process:**
+
+- Utilizes Adam optimizer for training.
+- Incorporates a custom data generator (`Generator` class) to yield batches of data.
+- Uses ModelCheckpoint to save model weights during training.
+
+## Usage
+
+### CNN
+
+```bash
+python cnn.py train <ticker>
 ```
 
-Ensure the input data is correctly placed in the expected directories, and the necessary preprocessing scripts are correctly imported.
-The CNN uses embedding layers and convolutional layers to process input sequences representing financial events over different time horizons.
+```bash
+python cnn.py predict <ticker> <weight>
+```
 
-### Author
+```bash
+python tnet.py train
+```
 
-Thomas F McGeehan V (TFMV)
+```bash
+python tnet.py predict <weight>
+```
+
+## Contact
+
+Created by Thomas F McGeehan V
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
